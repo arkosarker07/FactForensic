@@ -10,8 +10,8 @@ from .models import GeopoliticalNews
 
 
 def home_view(request):
-    world_qs = GeopoliticalNews.objects.filter(category="World").order_by("-published_at")[:10]
-    bd_qs = GeopoliticalNews.objects.filter(category="BD").order_by("-published_at")[:10]
+    world_qs = GeopoliticalNews.objects.filter(category="World").order_by("-published_at")[:11]
+    bd_qs = GeopoliticalNews.objects.filter(category="BD").order_by("-published_at")[:11]
 
     # Inject randomized metrics since models are not added yet
     world_news = []
@@ -28,9 +28,14 @@ def home_view(request):
         news.score_class = "score-high" if news.obj_score >= 80 else ("score-med" if news.obj_score >= 70 else "score-low")
         bd_news.append(news)
 
+    breaking_world = world_news.pop(0) if world_news else None
+    breaking_bd = bd_news.pop(0) if bd_news else None
+
     context = {
-        "world_news": world_news,
-        "bd_news": bd_news,
+        "breaking_world": breaking_world,
+        "breaking_bd": breaking_bd,
+        "world_news": world_news[:10],
+        "bd_news": bd_news[:10],
     }
     return render(request, "pages/home.html", context)
 

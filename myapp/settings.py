@@ -81,12 +81,8 @@ WSGI_APPLICATION = "myapp.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "FactForensic_db",  # The name you created in Step 2
-        "USER": "postgres",  # Usually 'postgres' by default
-        "PASSWORD": "amGonnaberich12",
-        "HOST": "localhost",  # Or 'localhost'
-        "PORT": "5432",  # Default Postgres port
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 

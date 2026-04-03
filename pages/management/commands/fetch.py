@@ -348,11 +348,11 @@ class Command(BaseCommand):
                 parsed = feedparser.parse(resp.content)
                 entries = parsed.entries
             except Exception as e:
-                self.stdout.write(f"  ⚠️  Failed: {e}")
+                self.stdout.write(f"  [WARN]  Failed: {e}")
                 continue
 
             if not entries:
-                self.stdout.write(f"  └─ 0 entries")
+                self.stdout.write(f"  |- 0 entries")
                 continue
 
             feed_hits = 0
@@ -393,7 +393,7 @@ class Command(BaseCommand):
                 )
                 feed_hits += 1
 
-            self.stdout.write(f"  └─ {feed_hits} fresh candidates")
+            self.stdout.write(f"  |- {feed_hits} fresh candidates")
 
         if not candidates:
             self.stdout.write(f"\n[{category}] No fresh articles found.")
@@ -427,10 +427,10 @@ class Command(BaseCommand):
             body = self.scrape(real_url)
 
             if not body:
-                self.stdout.write("  └─ ⛔ Scrape failed, trying next candidate\n")
+                self.stdout.write("  |- [FAIL] Scrape failed, trying next candidate\n")
                 continue
 
-            self.stdout.write(f"  └─ ✅ Scraped ({len(body):,} chars)")
+            self.stdout.write(f"  |- [OK] Scraped ({len(body):,} chars)")
 
             GeopoliticalNews.objects.create(
                 url=item["url"][:800],
@@ -441,7 +441,7 @@ class Command(BaseCommand):
                 published_at=item["published_at"],
             )
             saved += 1
-            self.stdout.write(f"  └─ 💾 Saved: {item['title'][:50]}\n")
+            self.stdout.write(f"  |- [SAVE] Saved: {item['title'][:50]}\n")
 
             time.sleep(1)
 
@@ -465,20 +465,20 @@ class Command(BaseCommand):
             result = new_decoderv1(url)
             if result.get("status") and result.get("decoded_url"):
                 decoded = result["decoded_url"]
-                self.stdout.write(f"  └─ Decoded → {decoded[:80]}")
+                self.stdout.write(f"  |- Decoded -> {decoded[:80]}")
                 return decoded
         except Exception as e:
-            self.stdout.write(f"  └─ Decoder failed ({e}), trying redirect...")
+            self.stdout.write(f"  |- Decoder failed ({e}), trying redirect...")
 
         # Attempt 2: follow HTTP redirects
         try:
             resp = requests.get(url, headers=HEADERS, timeout=10, allow_redirects=True)
             final = resp.url
             if "news.google.com" not in final:
-                self.stdout.write(f"  └─ Redirected → {final[:80]}")
+                self.stdout.write(f"  |- Redirected -> {final[:80]}")
                 return final
         except Exception as e:
-            self.stdout.write(f"  └─ Redirect failed ({e})")
+            self.stdout.write(f"  |- Redirect failed ({e})")
 
         return url
 
@@ -618,7 +618,7 @@ class Command(BaseCommand):
                 return text.strip()
             return None
         except Exception as e:
-            self.stdout.write(f"  └─ ⚠️  Playwright error: {str(e)[:50]}")
+            self.stdout.write(f"  |- [WARN]  Playwright error: {str(e)[:50]}")
             try:
                 page.close()
             except Exception:
