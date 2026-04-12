@@ -127,6 +127,71 @@ STRICT RULES:
         )
 
 
+_hf_client = None
+
+def get_hf_bias(text):
+    """
+    Helper function to get bias from HF model. 
+    Loads the client lazily once.
+    """
+    global _hf_client
+    if _hf_client is None:
+        try:
+            from gradio_client import Client
+            _hf_client = Client("detre/bias_detection", verbose=False)
+        except Exception as e:
+            print("Error initializing HF client:", e)
+            return "Center"
+    try:
+        result = _hf_client.predict(text=text[:2000], api_name="/predict_bias")
+        bias_label = result.get("label", "Center")
+        return "Center" if bias_label == "Center / Neutral" else bias_label
+    except Exception as e:
+        print("Error predicting bias:", e)
+        return "Center"
+
+def _assign_bias_and_obj(news_qs):
+    news_list = []
+    for news in news_qs:
+        if news.bias_score is not None:
+            if news.bias_score <= -0.5:
+                news.random_bias = "Left"
+            elif news.bias_score >= 0.5:
+                news.random_bias = "Right"
+            else:
+                news.random_bias = "Center"
+        else:
+            text_to_analyze = news.title + " " + (news.content or "")
+            bias_label = get_hf_bias(text_to_analyze)
+            news.random_bias = bias_label
+            if bias_label == "Left": 
+                news.bias_score = -1.0
+            elif bias_label == "Right": 
+                news.bias_score = 1.0
+            else: 
+                news.bias_score = 0.0
+            news.save(update_fields=['bias_score'])
+
+        news.obj_score = getattr(news, "objectivity_score", None)
+        if news.obj_score is None:
+            from pages.utils import get_groq_objectivity_score
+            text_for_obj = news.title + " " + (news.content or "")
+            fetched_obj = get_groq_objectivity_score(text_for_obj)
+            if fetched_obj is not None:
+                news.obj_score = fetched_obj
+                news.objectivity_score = fetched_obj
+                news.save(update_fields=['objectivity_score'])
+            else:
+                news.obj_score = random.randint(55, 98)
+        
+        news.score_class = (
+            "score-high"
+            if news.obj_score >= 80
+            else ("score-med" if news.obj_score >= 70 else "score-low")
+        )
+        news_list.append(news)
+    return news_list
+
 def home_view(request):
     world_qs = GeopoliticalNews.objects.filter(category="World").order_by(
         "-published_at"
@@ -135,35 +200,8 @@ def home_view(request):
         :11
     ]
 
-    world_news = []
-    for news in world_qs:
-        news.random_bias = getattr(news, "bias_score", None) or random.choice(
-            ["Left", "Center-Left", "Center", "Center-Right", "Right"]
-        )
-        news.obj_score = getattr(news, "objectivity_score", None)
-        if news.obj_score is None:
-            news.obj_score = random.randint(55, 98)
-        news.score_class = (
-            "score-high"
-            if news.obj_score >= 80
-            else ("score-med" if news.obj_score >= 70 else "score-low")
-        )
-        world_news.append(news)
-
-    bd_news = []
-    for news in bd_qs:
-        news.random_bias = getattr(news, "bias_score", None) or random.choice(
-            ["Left", "Center-Left", "Center", "Center-Right", "Right"]
-        )
-        news.obj_score = getattr(news, "objectivity_score", None)
-        if news.obj_score is None:
-            news.obj_score = random.randint(55, 98)
-        news.score_class = (
-            "score-high"
-            if news.obj_score >= 80
-            else ("score-med" if news.obj_score >= 70 else "score-low")
-        )
-        bd_news.append(news)
+    world_news = _assign_bias_and_obj(world_qs)
+    bd_news = _assign_bias_and_obj(bd_qs)
 
     breaking_world = world_news.pop(0) if world_news else None
     breaking_bd = bd_news.pop(0) if bd_news else None
@@ -179,13 +217,10 @@ def home_view(request):
 
 def get_model_predictions(text):
     """
-    SKELETON FUNCTION:
-    This is where you will load your .joblib or .h5 models from Colab.
-    For now, it returns mock data that matches the dashboard UI.
+    Fetches real bias predictions using the Hugging Face Space API
+    and combines it with objectivity scores.
     """
-    mock_bias = random.choice(
-        ["Left", "Center", "Right", "Center-Left", "Center-Right"]
-    )
+    bias_label = get_hf_bias(text)
 
     from pages.utils import get_groq_objectivity_score
 
@@ -195,7 +230,7 @@ def get_model_predictions(text):
     obj_score = groq_obj if groq_obj is not None else random.randint(60, 99)
 
     return {
-        "bias": mock_bias,
+        "bias": bias_label,
         "objectivity": obj_score,
         "score_class": "score-high"
         if obj_score >= 80

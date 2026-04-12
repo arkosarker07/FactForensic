@@ -72,7 +72,7 @@
             <div class="bn-carousel-wrap" id="world-carousel-wrap">
                 <div class="bn-loading" id="world-loading">
                     <div class="bn-spinner"></div>
-                    <span>Fetching from Gemini…</span>
+                    <span>Fetching…</span>
                 </div>
                 <div class="bn-slides" id="world-slides"></div>
             </div>
@@ -934,7 +934,7 @@
                         Full News
                     </a>
                     <button class="btn-summarize btn-ai-summarize" data-article-id="{{ item.id }}"
-                        data-article-title="{{ item.title|escapejs }}">
+                        data-article-title="{{ item.title }}">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 1 7.92 12.446" />
@@ -1006,7 +1006,7 @@
                         Full News
                     </a>
                     <button class="btn-summarize btn-ai-summarize" data-article-id="{{ item.id }}"
-                        data-article-title="{{ item.title|escapejs }}">
+                        data-article-title="{{ item.title }}">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 1 7.92 12.446" />
@@ -1047,6 +1047,9 @@
 
         <!-- Article title -->
         <p id="summary-modal-title" class="summary-article-title"></p>
+        
+        <!-- Bold Divider -->
+        <hr class="summary-divider">
 
         <!-- Body: loading / result / error -->
         <div id="summary-body" class="summary-body">
@@ -1205,6 +1208,15 @@
         margin: 0;
         padding: 0.9rem 1.4rem 0;
         opacity: 0.85;
+    }
+
+    /* ── Divider ── */
+    .summary-divider {
+        border: 0;
+        height: 2px;
+        background: linear-gradient(to right, rgba(99, 102, 241, 0.6), rgba(99, 102, 241, 0.1), transparent);
+        margin: 1rem 1.4rem 0.2rem;
+        border-radius: 99px;
     }
 
     /* ── Body ── */

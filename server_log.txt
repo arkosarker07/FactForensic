@@ -1,0 +1,92 @@
+Watching for file changes with StatReloader
+F:\AI-ML\FactForensic\FactForensic\pages\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 08, 2026 - 10:43:15
+Django version 5.2.12, using settings 'myapp.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+F:\AI-ML\FactForensic\FactForensic\pages\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 08, 2026 - 10:56:02
+Django version 5.2.12, using settings 'myapp.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[08/Apr/2026 10:56:30] "GET / HTTP/1.1" 200 105558
+Internal Server Error: /analyze/
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "F:\AI-ML\FactForensic\FactForensic\pages\views.py", line 248, in analyze_view
+    predictions = get_model_predictions(analysis_text)
+  File "F:\AI-ML\FactForensic\FactForensic\pages\views.py", line 216, in get_model_predictions
+    from pages.utils import get_groq_objectivity_score
+  File "F:\AI-ML\FactForensic\FactForensic\pages\utils.py", line 2, in <module>
+    from groq import Groq
+ModuleNotFoundError: No module named 'groq'
+[08/Apr/2026 10:59:33] "POST /analyze/ HTTP/1.1" 500 83070
+Internal Server Error: /analyze/
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "F:\AI-ML\FactForensic\FactForensic\pages\views.py", line 248, in analyze_view
+    predictions = get_model_predictions(analysis_text)
+  File "F:\AI-ML\FactForensic\FactForensic\pages\views.py", line 216, in get_model_predictions
+    from pages.utils import get_groq_objectivity_score
+  File "F:\AI-ML\FactForensic\FactForensic\pages\utils.py", line 2, in <module>
+    from groq import Groq
+ModuleNotFoundError: No module named 'groq'
+[08/Apr/2026 11:00:01] "POST /analyze/ HTTP/1.1" 500 83070
+Internal Server Error: /analyze/
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "F:\AI-ML\FactForensic\FactForensic\pages\views.py", line 248, in analyze_view
+    predictions = get_model_predictions(analysis_text)
+  File "F:\AI-ML\FactForensic\FactForensic\pages\views.py", line 216, in get_model_predictions
+    from pages.utils import get_groq_objectivity_score
+  File "F:\AI-ML\FactForensic\FactForensic\pages\utils.py", line 2, in <module>
+    from groq import Groq
+ModuleNotFoundError: No module named 'groq'
+[08/Apr/2026 11:00:28] "POST /analyze/ HTTP/1.1" 500 83070
+[08/Apr/2026 11:00:30] "GET / HTTP/1.1" 200 105558
+[08/Apr/2026 11:00:47] "GET /api/breaking-news/ HTTP/1.1" 200 3341
+[08/Apr/2026 11:01:01] "GET /analyze/ HTTP/1.1" 200 13861
+[08/Apr/2026 11:01:03] "GET / HTTP/1.1" 200 105558
+[08/Apr/2026 11:01:03] "GET /api/breaking-news/ HTTP/1.1" 200 3341
+[08/Apr/2026 11:14:06] "GET / HTTP/1.1" 200 105558
+[08/Apr/2026 11:14:06] "GET /api/breaking-news/ HTTP/1.1" 200 3341
+[08/Apr/2026 11:17:20] "GET / HTTP/1.1" 200 105558
+[08/Apr/2026 11:17:20] "GET /api/breaking-news/ HTTP/1.1" 200 3341
+[08/Apr/2026 11:17:34] "GET /analyze/ HTTP/1.1" 200 13861
+Internal Server Error: /analyze/
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "F:\AI-ML\FactForensic\FactForensic\pages\views.py", line 248, in analyze_view
+    predictions = get_model_predictions(analysis_text)
+  File "F:\AI-ML\FactForensic\FactForensic\pages\views.py", line 216, in get_model_predictions
+    from pages.utils import get_groq_objectivity_score
+  File "F:\AI-ML\FactForensic\FactForensic\pages\utils.py", line 2, in <module>
+    from groq import Groq
+ModuleNotFoundError: No module named 'groq'
+[08/Apr/2026 11:18:12] "POST /analyze/ HTTP/1.1" 500 82846
