@@ -132,6 +132,12 @@ STRICT RULES:
 
         data = json.loads(raw)
 
+        # Shuffle the arrays to avoid fixed patterns (e.g. Economy always No. 1)
+        if "bd" in data and isinstance(data["bd"], list):
+            random.shuffle(data["bd"])
+        if "international" in data and isinstance(data["international"], list):
+            random.shuffle(data["international"])
+
         # Add cache metadata
         data["is_peak_hour"] = _is_peak_hour_bd()
         data["refresh_in_minutes"] = 30 if _is_peak_hour_bd() else 60
