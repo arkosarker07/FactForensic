@@ -23,7 +23,7 @@ Check news by yourself using links or raw news:
 
 ## Builds with:
 - python
-- Django (REST Framework)
+- Django
 - postgresql
 - Scikit-Learn / PyTorch / TensorFlow
 - Google 2.5 flash/llama-3.1-8b-instant 
