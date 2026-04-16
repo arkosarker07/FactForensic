@@ -386,10 +386,6 @@ class Command(BaseCommand):
 
         os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
         self.stdout.write(f"\n[START] {timezone.now().strftime('%Y-%m-%d %H:%M')}")
-        
-        # --- TEMPORARY WIPE FOR REFRESH ---
-        count, _ = GeopoliticalNews.objects.all().delete()
-        self.stdout.write(self.style.WARNING(f"\n--- ONE TIME DB WIPE: DELETED {count} OLD NEWS ARTICLES ---\n"))
 
         # Initialize browser state for both automated and single-use scrapes
         self._browser = None
