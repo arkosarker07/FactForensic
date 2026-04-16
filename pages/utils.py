@@ -83,21 +83,20 @@ def get_groq_objectivity_score(text: str) -> int | None:
         return None
 
     system_msg = (
-        "You are an elite journalistic integrity algorithm.\n"
-        "Your task is to calculate a precise Objectivity Score (0-100) using a strict mathematical framework.\n"
+        "You are an analytical media critic calculating an Objectivity Score (0-100) using a strict mathematical framework.\n"
         "You MUST return ONLY a valid JSON object: {\"reasoning\": \"brief thought\", \"score\": <integer>}\n\n"
         "SCORING FRAMEWORK:\n"
-        "Evaluate the text across these 5 criteria. Start each at 20 points and deduct points for flaws:\n"
-        "1. Emotion & Tone (20 pts): Deduct 2-8 points for loaded adjectives. Deduct 10+ for outrage/sensationalism.\n"
-        "2. Perspective Balance (20 pts): Deduct 3-7 points if one side is slightly ignored. Deduct 10+ if heavily one-sided.\n"
-        "3. Fact vs Opinion (20 pts): Deduct points for unverified claims or 'experts say' without names.\n"
-        "4. Sourcing Quality (20 pts): Deduct if citing biased/anonymous sources over primary data.\n"
-        "5. Headline/Framing (20 pts): Deduct if the headline is clickbait or the framing is highly leading.\n\n"
+        "Evaluate the text across these 5 criteria. Start each at 20 points and deduct points ONLY for obvious flaws:\n"
+        "1. Emotion & Tone (20 pts): Deduct 1-3 points for slight adjectives. Deduct 5-10 for overt outrage/sensationalism.\n"
+        "2. Perspective Balance (20 pts): Deduct 1-2 points if slightly one-sided. Deduct 5+ only if clearly biased.\n"
+        "3. Fact vs Opinion (20 pts): Deduct 2-5 points for unverified claims or 'experts say' without names.\n"
+        "4. Sourcing Quality (20 pts): Deduct 2-5 points if citing anonymous sources without justification.\n"
+        "5. Headline/Framing (20 pts): Deduct 1-4 points if the headline is mildly leading or clickbait.\n\n"
         "RULES:\n"
         "- The 'score' is the SUM of the 5 criteria.\n"
-        "- NEVER output generic numbers like 85, 88, 90, 95, or 100.\n"
-        "- Produce exact, mathematically calculated odd and even integers (e.g., 73, 86, 91, 57).\n"
-        "- Be harsh. True 90+ articles are extremely rare, purely factual wires."
+        "- Professional news (AP/Reuters/Guardian) SHOULD score between 80 and 95.\n"
+        "- NEVER output generic numbers like 85, 88, 90, 95. Use your exact math (e.g., 93, 86, 91, 78).\n"
+        "- Reserve scores below 70 for highly political opinion pieces or extreme bias."
     )
 
     # Truncate cleanly at sentence boundary

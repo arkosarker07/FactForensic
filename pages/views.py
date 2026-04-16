@@ -113,7 +113,7 @@ STRICT RULES:
                 err_msg = str(_e).lower()
                 # If busy or rate limited, wait and retry
                 if "503" in err_msg or "unavailable" in err_msg or "429" in err_msg or "exhausted" in err_msg:
-                    time.sleep(5 * (_attempt + 1))
+                    time.sleep(1) # Fast retry to avoid Gunicorn 30s worker timeout
                     continue
                 else:
                     # For other errors (like 404 or auth), stop retrying
@@ -292,12 +292,6 @@ def analyze_view(request):
 
     return render(request, "pages/input.html", {"result": result})
 
-
-@csrf_exempt
-def clear_db(request):
-    """Temporary endpoint to wipe the DB so we can test fresh scores."""
-    count, _ = GeopoliticalNews.objects.all().delete()
-    return JsonResponse({"status": "cleared", "deleted_count": count})
 
 @csrf_exempt
 def trigger_fetch(request):
