@@ -534,11 +534,29 @@ class Command(BaseCommand):
 
             self.stdout.write(f"  |- [OK] Scraped ({len(body):,} chars)")
 
-            # Request objectivity score from Groq
+            # Get objectivity score from Groq
             from pages.utils import get_groq_objectivity_score
+            from pages.views import get_hf_bias
 
             obj_score = get_groq_objectivity_score(body)
             self.stdout.write(f"  |- [GROQ] Objectivity score: {obj_score}")
+
+            # Run HF bias model on article text; fall back to source bias
+            source_bias = item.get("bias", "Center")
+            try:
+                hf_label = get_hf_bias(body[:2000])
+                bias_label = hf_label if hf_label else source_bias
+                self.stdout.write(f"  |- [HF]   Bias: {bias_label}")
+            except Exception as e:
+                bias_label = source_bias
+                self.stdout.write(f"  |- [HF]   Failed ({e}), using source bias: {bias_label}")
+
+            if "left" in bias_label.lower():
+                bias_score_val = -1.0
+            elif "right" in bias_label.lower():
+                bias_score_val = 1.0
+            else:
+                bias_score_val = 0.0
 
             GeopoliticalNews.objects.create(
                 url=item["url"][:800],
@@ -548,6 +566,7 @@ class Command(BaseCommand):
                 category=category,
                 published_at=item["published_at"],
                 objectivity_score=obj_score,
+                bias_score=bias_score_val,
             )
             saved += 1
             self.stdout.write(f"  |- [SAVE] Saved: {item['title'][:50]}\n")
