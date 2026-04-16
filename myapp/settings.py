@@ -33,6 +33,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
+# Required for POST forms on production domains (CSRF protection)
+CSRF_TRUSTED_ORIGINS = [
+    "https://factforensic.up.railway.app",
+    "https://*.up.railway.app",
+] + [
+    f"https://{h.strip()}" for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip() and h.strip() != "*"
+]
+
 
 # Application definition
 

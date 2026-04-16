@@ -146,9 +146,11 @@ STRICT RULES:
         _breaking_news_cache["data"] = data
         _breaking_news_cache["fetched_at"] = now
 
-        # --- NEW: Save to persistent file cache ---
+        # --- Save to persistent file cache (use absolute path) ---
         try:
-            with open("breaking_news_cache.json", "w") as f:
+            import os as _os
+            _cache_path = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "breaking_news_cache.json")
+            with open(_cache_path, "w") as f:
                 json.dump(data, f)
         except Exception as _fe:
             print("Failed to write breaking news file cache:", _fe)
@@ -165,9 +167,10 @@ STRICT RULES:
             
         # 2. If memory is empty (after restart), try file cache
         try:
-            import os
-            if os.path.exists("breaking_news_cache.json"):
-                with open("breaking_news_cache.json", "r") as f:
+            import os as _os
+            _cache_path = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "breaking_news_cache.json")
+            if _os.path.exists(_cache_path):
+                with open(_cache_path, "r") as f:
                     file_data = json.load(f)
                     file_data["stale"] = True
                     file_data["error_hint"] = f"Live API failed: {str(e)}"
