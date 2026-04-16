@@ -31,6 +31,10 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-insecure-key-set-in-.env")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# django-genai (Gemini) uses asyncio internally and can leave an event loop
+# running. This tells Django's ORM it's safe to do sync DB calls in a WSGI app.
+DJANGO_ALLOW_ASYNC_UNSAFE = True
+
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 # Required for POST forms on production domains (CSRF protection)
