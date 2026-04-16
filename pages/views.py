@@ -267,13 +267,20 @@ def analyze_view(request):
 
         analysis_text = content
 
-        if input_type == "url" and content.startswith("http"):
-            from pages.management.commands.fetch import Command
-
-            fetcher = Command()
-            scraped_text = fetcher.scrape_full_text(content)
-            if scraped_text:
-                analysis_text = scraped_text
+        if input_type == "url" and content and content.startswith("http"):
+            try:
+                from pages.management.commands.fetch import Command
+                fetcher = Command()
+                # Initialise browser state so scrape() doesn't crash
+                fetcher._browser = None
+                fetcher._playwright_ctx = None
+                fetcher._p = None
+                # scrape() tries trafilatura → Playwright (graceful fail) → newspaper3k
+                scraped_text = fetcher.scrape(content)
+                if scraped_text:
+                    analysis_text = scraped_text
+            except Exception as e:
+                print(f"Scrape error in analyze_view: {e}")
 
         predictions = get_model_predictions(analysis_text)
 
