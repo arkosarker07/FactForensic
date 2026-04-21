@@ -11,13 +11,18 @@ Political bias leaning and objectivity score detection from news article system
 
 ## Webpages:
 Home Page:
-<img width="1829" height="799" alt="image" src="https://github.com/user-attachments/assets/726d111f-02f5-4491-84c2-9ce9c02976e3" />
-<img width="1781" height="840" alt="image" src="https://github.com/user-attachments/assets/4e938dee-3845-4757-af36-ce24f6e5c622" />
+
+<img width="1905" height="1585" alt="2026-04-21 19 32 00 127 0 0 1 795ca46e60b3" src="https://github.com/user-attachments/assets/4b762efb-1574-4502-ae05-0b2c57d9e6f0" />
+
+News summary:
+
+<img width="718" height="561" alt="2026-04-21 19 34 03 127 0 0 1 ee63da87d134" src="https://github.com/user-attachments/assets/9c65888f-e3a1-470f-9b1b-cd24691f49e4" />
 
 Check news by yourself using links or raw news:
-<img width="1851" height="749" alt="image" src="https://github.com/user-attachments/assets/78585990-37d2-4baf-abbd-a7bdf74e8102" />
-<img width="1849" height="853" alt="Screenshot 2026-04-13 005521" src="https://github.com/user-attachments/assets/ebdd1d79-942c-480b-b06f-5d5d8b8dfedc" />
-<img width="1796" height="254" alt="Screenshot 2026-04-13 005536" src="https://github.com/user-attachments/assets/245947f7-2515-45e5-8ee0-e2df9647ea9f" />
+
+<img width="1905" height="1125" alt="2026-04-21 19 32 38 127 0 0 1 4de844eda197" src="https://github.com/user-attachments/assets/56129d61-e49f-4de9-ba3d-83cb50451123" />
+
+
 
 
 
